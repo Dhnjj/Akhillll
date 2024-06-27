@@ -1,0 +1,25 @@
+Maintaining the transactional history of any user is very important. Explore the various session tracking mechanism (Cookies, HTTP Session)
+
+import java.io.*; import javax.servlet.*;
+import javax.servlet.http.*;
+public class SessionTrackingDemo extends HttpServlet
+{
+public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+{
+HttpSession session = request.getSession();
+if (session.getAttribute("visitedBefore") == null)
+{
+session.setAttribute("visitedBefore", true); response.setContentType("text/html"); PrintWriter out = response.getWriter(); out.println("<html><body>"); out.println("<h1>Welcome, new user!</h1>");
+out.println("<p>You have not visited this site before.</p>"); out.println("</body></html>");
+}
+else
+{
+response.setContentType("text/html"); PrintWriter out = response.getWriter(); out.println("<html><body>"); out.println("<h1>Welcome back!</h1>");
+out.println("<p>You have visited this site before.</p>"); out.println("</body></html>");
+}
+Cookie nameCookie = new Cookie("username", "John Doe"); nameCookie.setMaxAge(24 * 60 * 60); response.addCookie(nameCookie);
+// Display a message to the user indicating that their name has been stored in a cookie response.setContentType("text/html");
+PrintWriter out = response.getWriter(); out.println("<html><body>");
+out.println("<p>Your name has been stored in a cookie.</p>"); out.println("</body></html>");
+}}
+

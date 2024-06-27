@@ -1,0 +1,230 @@
+Create a TODO application in react with necessary components and deploy it into github.
+
+In src folder: App.cs
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}body {
+padding: 50px; color: #f7f7f7;
+min-height: 100vh; background: #252525;
+text-rendering: optimizeSpeed; font-family: "Roboto", sans-serif;
+}
+
+.App {
+padding: 1rem; max-width: 50%;
+margin: 0 auto; text-align: center; background: #333;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px;
+}
+
+h1 {
+font-weight: 300; color: #44c0b6; font-size: 2.5rem;
+letter-spacing: 0.2rem; text-transform: uppercase;
+}
+
+.input-wrapper { margin: 3.5rem;
+}
+
+.todos-wrapper {
+margin-bottom: 2.5rem;
+}
+
+.todo { display: flex;
+justify-content: center; align-items: flex-start;
+}
+
+input {
+width: 450px; padding: 0.8em;
+}
+
+input:focus { outline: none; 
+}
+
+button {
+width: 120px; padding: 0.8em; cursor: pointer; font-weight: 400;
+letter-spacing: 0.1rem;
+}
+
+input, button {
+font-size: 1em; appearance: none; color: currentcolor;
+background: transparent; border: 1px solid #828691;
+}
+
+.add-button { color: #44c0b6; border-left: none;
+}
+
+.add-button:hover { color: #252525; background: #44c0b6;
+}
+
+.delete-button { color: #fe6a6a;
+}
+
+.delete-button:hover { color: #252525; background: #fe6a6a;
+}
+
+ul {
+padding: 0;
+list-style: none; margin-bottom: 0px;
+}
+
+li {
+width: 450px; padding: 0.85em; text-align: left;margin-bottom: 0.5rem; background: #494847; letter-spacing: 0.02rem; transition: all 0.3s ease-out;
+border-left: 5px solid #cf972e;
+}
+
+li:last-child {
+margin-bottom: 0px;
+}
+
+.empty {
+font-size: 20px; font-weight: 400; color: #cf972e;
+letter-spacing: 0.2rem;
+}
+App.js
+import { useState } from "react"; import TodoInput from "./TodoInput"; import TodoList from "./TodoList"; import "./App.css";
+
+const App = () => {
+const [todos, setTodos] = useState([]); const [todo, setTodo] = useState("");
+
+const addTodo = () => { if (todo !== "") {
+setTodos([...todos, todo]); setTodo("");
+}
+};
+
+const deleteTodo = (text) => {
+const newTodos = todos.filter((todo) => { return todo !== text;
+});
+setTodos(newTodos);
+};
+
+return (
+<div className="App">
+<h1>React Todo App</h1>
+<TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
+<TodoList list={todos} remove={deleteTodo} />
+</div>
+); 
+};
+export default App;
+
+TodoInput.js
+const TodoInput = ({ todo, setTodo, addTodo }) => { return (
+<div className="input-wrapper">
+<input type="text" name="todo" value={todo}
+placeholder="Create a new todo" onChange={(e) => { setTodo(e.target.value);
+}}
+/>
+<button className="add-button" onClick={addTodo}> Add
+</button>
+</div>
+);
+};
+export default TodoInput;
+
+TodoList.js
+const TodoList = ({ list, remove }) => { return (
+<>
+{list?.length > 0 ? (
+<ul className="todo-list">
+{list.map((entry, index) => (
+<div className="todo">
+<li key={index}> {entry} </li>
+
+<button
+className="delete-button" onClick={() => { remove(entry);
+}}
+>
+Delete
+</button>
+</div>
+))}
+</ul>
+) : (
+<div className="empty">
+<p>No task found</p> 
+</div>
+)}
+</>
+);
+};
+export default TodoList;
+
+index.js
+import React from "react";
+import ReactDOM from "react-dom/client"; import App from "./App";
+const root = ReactDOM.createRoot(document.getElementById("root")); root.render(<App />);
+
+In public folder:
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#000000" />
+<meta name="description"
+content="Web site created using create-react-app"
+/>
+<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+<!--
+manifest.json provides metadata used when your web app is installed on a
+user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app- manifest/
+-->
+<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+<!--
+Notice the use of %PUBLIC_URL% in the tags above.
+It will be replaced with the URL of the `public` folder during the build. Only files inside the `public` folder can be referenced from the HTML.
+
+Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will work correctly both with client-side routing and a non-root public URL. Learn how to configure a non-root public URL by running `npm run build`.
+-->
+<title>React App</title>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div> 
+</body>
+</html>
+
+manifest.json
+{
+"short_name": "React App",
+"name": "Create React App Sample", "icons": [
+{
+"src": "favicon.ico",
+"sizes": "64x64 32x32 24x24 16x16",
+"type": "image/x-icon"
+},
+{
+"src": "logo192.png",
+"type": "image/png", "sizes": "192x192"
+},
+{
+"src": "logo512.png",
+"type": "image/png", "sizes": "512x512"
+}
+],
+"start_url": ".", "display": "standalone",
+"theme_color": "#000000", "background_color": "#ffffff"
+}
+logo512.png
+{
+"short_name": "React App",
+"name": "Create React App Sample", "icons": [
+{
+"src": "favicon.ico",
+"sizes": "64x64 32x32 24x24 16x16",
+"type": "image/x-icon"
+},
+{
+"src": "logo192.png",
+"type": "image/png", "sizes": "192x192"
+},
+{
+"src": "logo512.png",
+"type": "image/png", "sizes": "512x512" 
+}
+],
+"start_url": ".", "display": "standalone",
+"theme_color": "#000000", "background_color": "#ffffff"
+}
