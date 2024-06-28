@@ -1,0 +1,36 @@
+function validateForm() {
+  // Get the values of the form fields
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  // Check if the name field is empty
+  if (name === "") {
+    alert('Please enter your name.');
+    return false;
+  }
+
+  // Check if the email field is empty
+  if (email === "") {
+    alert('Please enter your email address.');
+    return false;
+  }
+
+  // Check if the password field is empty
+  if (password === "") {
+    alert('Please enter your password.');
+    return false;
+  }
+
+  // Check if the email address is valid
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+    alert('Please enter a valid email address.');
+    return false;
+  }
+
+  // All fields are valid, so submit the form
+  return true;
+}
+
+// Add an event listener to the submit button
+document.getElementById('submit').addEventListener('click', validateForm);
